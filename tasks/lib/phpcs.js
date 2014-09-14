@@ -117,9 +117,15 @@ exports.init = function(grunt) {
      * @param Object runner
      */
     exports.setup = function(runner) {
+        var dir, attr;
 
-        var dir = runner.data.dir,
-            attr;
+        if(runner.data.dir){
+            dir = runner.data.dir;
+            grunt.log.writeln("The 'dir' option is deprecated, please use 'scr' instead.");
+        }else{
+            dir = runner.files[0].src;
+        }
+
         config  = runner.options(defaults);
 
         for (attr in cliOptions) {
