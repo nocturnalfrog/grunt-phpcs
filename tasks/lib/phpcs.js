@@ -49,7 +49,7 @@ exports.init = function(grunt) {
      *
      * @return string
      */
-    var buildCommand = function(dir) {
+    var buildCommand = function() {
 
         var cmd = path.normalize(config.bin);
 
@@ -117,13 +117,13 @@ exports.init = function(grunt) {
      * @param Object runner
      */
     exports.setup = function(runner) {
-        var dir, attr;
+        var files, attr;
 
         if(runner.data.dir){
-            dir = runner.data.dir;
-            grunt.log.writeln("The 'dir' option is deprecated, please use 'scr' instead.");
+            files = runner.data.dir;
+            grunt.log.writeln("The 'dir' target property is deprecated, please use 'scr' instead.");
         }else{
-            dir = runner.files[0].src;
+            files = runner.files[0].src;
         }
 
         config  = runner.options(defaults);
@@ -134,9 +134,9 @@ exports.init = function(grunt) {
             }
         }
 
-        cmd     = buildCommand(dir) + ' ' + grunt.file.expand(dir).join(' ');
+        cmd     = buildCommand() + ' ' + grunt.file.expand(files).join(' ');
 
-        grunt.log.writeln('Starting phpcs (target: ' + runner.target.cyan + ') in ' + dir.join(' ').cyan);
+        grunt.log.writeln('Starting phpcs (target: ' + runner.target.cyan + ') in ' + files.join(' ').cyan);
         grunt.verbose.writeln('Exec: ' + cmd);
 
         done    = runner.async();
